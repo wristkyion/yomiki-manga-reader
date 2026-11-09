@@ -1,0 +1,381 @@
+/* ============================================
+   VIEWER / READER
+   ============================================ */
+
+.viewer-body {
+  overflow: hidden;
+  background: var(--bg-primary);
+  animation: page-fade 0.4s ease both;
+}
+
+.viewer-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0 var(--space-md);
+  background: rgba(13, 13, 15, 0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 52px;
+  animation: slide-down 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease;
+}
+
+[data-theme="light"] .viewer-header {
+  background: rgba(250, 248, 245, 0.9);
+}
+
+.viewer-header button {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--border-subtle);
+}
+
+.viewer-header button:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.viewer-header h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--text-primary);
+  padding: 0 var(--space-sm);
+}
+
+#chapter-select {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  max-width: 170px;
+  outline: none;
+  cursor: pointer;
+}
+
+.mode-switcher {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.mode-switcher button {
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.mode-switcher button.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: var(--shadow-glow);
+  animation: tab-pop 0.3s ease;
+}
+
+#page-counter {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  min-width: 60px;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reader Container — now full-bleed so UI floats on top */
+.reader-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--space-sm);
+  animation: fade-in 0.5s 0.1s ease both;
+}
+
+.reader-container.mode-vertical {
+  flex-direction: column;
+  align-items: center;
+  scroll-behavior: smooth;
+  justify-content: flex-start !important;
+}
+
+.mode-vertical .manga-page {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  display: block;
+  margin: 0 auto 0 auto;
+}
+
+.mode-vertical .manga-page:first-child {
+  margin-top: var(--space-sm);
+}
+
+.reader-container.mode-single {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Image no longer shrinks when UI appears — always full viewport height */
+.mode-single .manga-page {
+  max-height: 100vh;
+}
+
+.reader-container.mode-book {
+  align-items: center;
+}
+
+.book-spread {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.book-spread .manga-page {
+  max-height: 100vh;
+  max-width: calc(50vw - 1.5rem);
+}
+
+.book-spread .right-page { order: 2; }
+.book-spread .left-page  { order: 1; }
+
+/* Viewer Controls */
+.viewer-controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--space-md);
+  background: rgba(13, 13, 15, 0.9);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-subtle);
+  z-index: 100;
+  height: 52px;
+  align-items: center;
+  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease;
+}
+
+[data-theme="light"] .viewer-controls {
+  background: rgba(250, 248, 245, 0.9);
+}
+
+.viewer-controls button {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  padding: 0.5rem 1.4rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.viewer-controls button:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.viewer-controls button:active {
+  transform: scale(0.96);
+}
+
+/* Progress */
+.progress-bar-container {
+  position: fixed;
+  bottom: 52px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--bg-tertiary);
+  z-index: 99;
+  transition: opacity 0.3s ease;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 0%;
+  box-shadow: 0 0 10px rgba(232, 93, 117, 0.3);
+}
+
+.progress-text {
+  position: fixed;
+  bottom: 56px;
+  right: var(--space-md);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  z-index: 99;
+  background: rgba(13, 13, 15, 0.8);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(4px);
+  font-variant-numeric: tabular-nums;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+
+[data-theme="light"] .progress-text {
+  background: rgba(250, 248, 245, 0.8);
+}
+
+/* ============================================
+   VIEWER AUTO-HIDE  (transform-only, no layout shift)
+   ============================================ */
+
+.viewer-header {
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.viewer-controls {
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.progress-bar-container {
+  transition: opacity 0.3s ease;
+}
+
+.progress-text {
+  transition: opacity 0.3s ease;
+}
+
+/* Hidden states */
+.viewer-header.hidden-ui {
+  transform: translateY(-100%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.viewer-controls.hidden-ui {
+  transform: translateY(100%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.progress-bar-container.hidden-ui {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.progress-text.hidden-ui {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Cursor hide when UI is hidden */
+body.cursor-hidden {
+  cursor: none;
+}
+
+.viewer-header,
+.viewer-controls {
+  z-index: 100;
+}
+
+/* ============================================
+   READER RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .book-spread .manga-page {
+    max-width: calc(50vw - 1rem);
+  }
+}
+
+/* ============================================
+   VIEWER BUTTONS (SVG icons)
+   ============================================ */
+
+.header-btn,
+.ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.5rem 0.9rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.header-btn:hover,
+.ctrl-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+.mode-switcher button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.45rem 0.8rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mode-switcher button:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.mode-switcher button.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.mode-switcher button svg {
+  opacity: 0.8;
+}
+
+.mode-switcher button.active svg {
+  opacity: 1;
+}

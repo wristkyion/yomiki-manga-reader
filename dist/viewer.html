@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yomiki - Reader</title>
+  <link rel="stylesheet" href="styles/stats.css">
+  <script>
+    (function(){
+      const s = JSON.parse(localStorage.getItem('Yomiki_settings') || '{}');
+      const t = s.theme || localStorage.getItem('Yomiki_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      const scale = s.ui_scale || 100;
+      document.documentElement.setAttribute('data-ui-scale', Math.round(scale));
+      const anim = s.disable_animations ? 'false' : 'true';
+      document.documentElement.setAttribute('data-animations', anim);
+    })();
+  </script>
+  <link rel="stylesheet" crossorigin href="/assets/dev-DkHxl_u6.css">
+</head>
+<body class="viewer-body">
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p>Loading chapter...</p>
+  </div>
+
+  <div id="reader-container" class="reader-container mode-vertical"></div>
+
+  <div class="viewer-header">
+    <button id="back-btn" class="header-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back
+    </button>
+    <h2 id="manga-title">Loading...</h2>
+    <select id="chapter-select"></select>
+    <div class="mode-switcher">
+      <button data-mode="vertical" title="Scroll vertically">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        Vertical
+      </button>
+      <button data-mode="single" title="One page at a time">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Single
+      </button>
+      <button data-mode="book" title="Two-page spread">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Book
+      </button>
+    </div>
+    <span id="page-counter">- / -</span>
+    <span id="live-timer" style="font-size:0.78rem;color:var(--text-muted);margin-left:0.5rem;min-width:55px;text-align:right;font-variant-numeric:tabular-nums;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:3px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      00:00
+    </span>
+    <button id="fullscreen-btn" class="btn-icon" title="Toggle fullscreen" style="margin-left:0.5rem;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+    </button>
+  </div>
+
+  <div class="viewer-controls">
+    <button id="prev-btn" class="ctrl-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Prev
+    </button>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+    <div class="progress-text" id="progress-text">0%</div>
+    <button id="next-btn" class="ctrl-btn">
+      Next
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+<div id="toast-container" class="toast-container"></div>
+
+  <script src="./script/utils.js"></script>
+  <script src="./script/readmode.js"></script>
+  <script src="./script/dev.js"></script>
+</body>
+</html>

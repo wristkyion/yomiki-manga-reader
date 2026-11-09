@@ -1,0 +1,92 @@
+iwantmanga/
+├── package.json
+├── vite.config.js
+├── public/
+│   └── script/
+│       ├── utils.js
+│       ├── menu.js
+│       ├── scanfolder.js
+│       └── readmode.js
+├── src/
+│   ├── index.html
+│   ├── viewer.html
+│   └── style.css
+└── src-tauri/
+    ├── Cargo.toml
+    ├── build.rs
+    ├── tauri.conf.json
+    ├── capabilities/
+    │   └── default.json
+    └── src/
+        └── main.rs
+
+Source:
+{
+    "source_authur": "nama author source"
+    "source": {
+         "name1":{
+             "title": "nama manga", "description": "deskripsi manga", "url": "pixeldrain,mediafire,etc"
+         }
+         "name2":{
+             "title": "nama manga", "description": "deskripsi manga", "url": "pixeldrain,mediafire,etc"
+         }
+    }
+}
+
+
+Up coming 1.0release
+1. Tag & genre di bedain jadi
+Genre = genre pada umumnya
+Tag = penambahan khusus contoh ("1girl","cute","pastel")
+fix: di bagian menu manga yang genre misal ga memiliki genre maka jangan di beri tanda strip seperti ini (-)
+misal ngak punya genre nya sendiri. sama kaya tag jangan di beri strip juga.
+saran: semua genre & tag masuk nya ke dalam isi UI namanya "About" nanti muncul seperti ini
+About
+Description
+(deskripsi/sinopsis/apapun itu)
+Tag
+(isi tag nya)
+Genre
+(isi genre nya)
+Author
+(isi author nya)
+
+2. penambahan manga.json
+{
+  "title": "judul manga",
+  "description": "deskripsi/sinopsis/apapun",
+  "author": "nama author",
+  "genre": ["Adventure", "Girls Love", "Action", "etc.."],
+  "tag": ["2girl", "school", "1boy", "etc.."],
+  "type": "Doujhin/Manga/Comic/etc...",
+  "status": "Completed/Ongoing/Hiatus",
+  "cover": "Cover.jpg/.webp/.png",
+  "explit content/nsfw": "true(so it blur the cover+warning)/false(doesn't blur+safe for reader)",
+
+  "lock": "true/false" (fitur untuk add manga, misal kalo true dia ngak bisa di edit lagi. kalo false masih bisa di edit lagi)
+}
+add: di tambahin juga di advanced search nanti
+
+3. collection tab
+nambahin koleksi di samping All/Favorite/Bookmarked/Completed dan bisa nambahin koleksi sendiri
+(add new collection +) dan tambahin manga apa aja
+
+4. fix delete button
+delete button pas buka semua deskripsi manga nya disitu ada tombol (tong sampah) buat di hapus,
+dan kasih peringatan hapus atau tidak
+
+5. drag n drop manga + multi select also fix import
+fitur dimana bisa drag n drop .ykm dan .zip dan multi select saat import manual
+fix: misal kalo ngak ada isi .json nanti di kasih error note "this has not having manga.json, add manga instead if has not having manga.json" atau
+gagal import itu paling simple
+
+
+6. add new manga editmanga.html
+buat nambahin manga sendiri atau bisa di bilang buat metadata sendiri manga.json. lalu
+nambahin gambar/page, chapter, deskripsi, cover, dan lain lain nya. dan bisa di export jadi .ykm
+dan otomatis ke lock agar tidak bisa di edit.
+
+7. toast/notif remake
+kalo bisa bikin kaya style ios dari notif gitu terus kasih progress bar loading bakal hilang nya.
+Title: Error/Succses/Changes(for sort)! (cuman tambahan)
+Description: "update apa yang tadi di peroleh kaya (success added styles.json)"

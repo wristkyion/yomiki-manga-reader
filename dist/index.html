@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yomiki</title>
+  <link rel="stylesheet" href="styles/stats.css">
+  <script>
+    (function(){
+      const s = JSON.parse(localStorage.getItem('Yomiki_settings') || '{}');
+      const t = s.theme || localStorage.getItem('Yomiki_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      const scale = s.ui_scale || 100;
+      document.documentElement.setAttribute('data-ui-scale', Math.round(scale));
+      const anim = s.disable_animations ? 'false' : 'true';
+      document.documentElement.setAttribute('data-animations', anim);
+    })();
+  </script>
+  <link rel="stylesheet" crossorigin href="/assets/dev-DkHxl_u6.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+        </div>
+        <span class="brand-text">Yomiki</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <button class="nav-item" data-filter="all">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Library</span>
+          </button>
+          <button class="nav-item" data-filter="favorites">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span>Favorites</span>
+          </button>
+          <button class="nav-item" data-filter="bookmarks">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>Reading</span>
+          </button>
+          <button class="nav-item" data-filter="completed">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Completed</span>
+          </button>
+          <button class="nav-item" data-filter="collection">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <span>Collections</span>
+          </button>
+        </div>
+
+        <div class="nav-divider"></div>
+
+        <div class="nav-group">
+          <button class="nav-item" data-view="stats">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Statistics</span>
+          </button>
+          <button class="nav-item" data-view="studio">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+            <span>Studio</span>
+          </button>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btn-import" class="footer-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span>Import Manga</span>
+        </button>
+        <button id="btn-scan" class="footer-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><line x1="12" y1="11" x2="12" y2="11"/><line x1="8" y1="11" x2="8" y2="11"/><line x1="16" y1="11" x2="16" y2="11"/></svg>
+          <span>Scan Folder</span>
+        </button>
+        <div class="nav-divider"></div>
+        <button class="nav-item" data-view="settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.67 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Content Header -->
+      <div class="content-header">
+        <h1 class="page-title" id="page-title">Library</h1>
+        
+        <div class="header-actions">
+          <div class="search-box">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search-input" placeholder="Search manga...">
+          </div>
+
+          <div class="sort-dropdown">
+            <button id="btn-sort" class="btn-icon" title="Sort">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5h10"/><path d="M11 9h7"/><path d="M11 13h4"/><path d="M3 17l3 3 3-3"/><path d="M6 18V4"/></svg>
+            </button>
+            <div class="sort-menu hidden" id="sort-menu">
+              <button data-sort="title-asc" class="sort-option active">A → Z</button>
+              <button data-sort="title-desc" class="sort-option">Z → A</button>
+              <button data-sort="recently-read" class="sort-option">Recently Read</button>
+              <button data-sort="recently-added" class="sort-option">Recently Added</button>
+              <button data-sort="unread" class="sort-option">Unread First</button>
+              <button data-sort="progress" class="sort-option">Most Progress</button>
+            </div>
+          </div>
+
+          <button id="btn-advanced" class="btn-icon" title="Advanced Search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          </button>
+
+          <div class="view-toggle" id="view-toggle">
+            <button class="view-btn active" data-mode="compact" title="Compact">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+            <button class="view-btn" data-mode="detailed" title="Detailed">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
+
+          <button id="btn-rescan" class="btn-icon" title="Reload library">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Continue Reading -->
+      <section id="continue-section" class="continue-section hidden">
+        <h2 id="continue-toggle">
+          <svg id="continue-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          Continue Reading
+        </h2>
+        <div class="continue-scroll" id="continue-scroll"></div>
+      </section>
+
+      <!-- Collection Bar -->
+      <div id="collection-bar" class="collection-bar hidden">
+        <div class="collection-list" id="collection-list"></div>
+        <button id="btn-new-collection" class="btn-icon" title="Manage Collections">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+
+      <!-- Library Grid -->
+      <div id="library-grid" class="library-grid"></div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="empty-state hidden">
+        <div class="mascot-wrap">
+          <img id="empty-mascot" src="./image/sad-mascot.png" alt="Mascot">
+        </div>
+        <p id="empty-message">No manga in library. Click <b>Import</b> to add manga!</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Library Loading Overlay -->
+  <div id="library-loader" class="library-loader">
+    <div class="spinner"></div>
+    <p>Loading your manga library...</p>
+  </div>
+
+  <!-- Advanced Search Panel -->
+  <div id="advanced-panel" class="advanced-panel hidden">
+    <div class="advanced-content">
+      <div class="advanced-group">
+        <h4>Sort By</h4>
+        <div class="advanced-options" id="advanced-sort">
+          <button data-sort="title-asc" class="adv-option active">A → Z</button>
+          <button data-sort="title-desc" class="adv-option">Z → A</button>
+          <button data-sort="recently-read" class="adv-option">Recently Read</button>
+          <button data-sort="recently-added" class="adv-option">Recently Added</button>
+          <button data-sort="unread" class="adv-option">Unread First</button>
+          <button data-sort="progress" class="adv-option">Most Progress</button>
+        </div>
+      </div>
+      <div class="advanced-group">
+        <h4>Filter by Genre</h4>
+        <div class="advanced-genres" id="advanced-genres"></div>
+      </div>
+      <div class="advanced-group">
+        <h4>Filter by Tag</h4>
+        <div class="advanced-tags" id="advanced-tags"></div>
+      </div>
+      <div class="advanced-group">
+        <h4>Type</h4>
+        <div class="advanced-options" id="advanced-types"></div>
+      </div>
+      <div class="advanced-group">
+        <h4>Status</h4>
+        <div class="advanced-options">
+          <button data-status="all" class="adv-option active">All</button>
+          <button data-status="ongoing" class="adv-option">Ongoing</button>
+          <button data-status="completed" class="adv-option">Completed</button>
+          <button data-status="hiatus" class="adv-option">Hiatus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onboarding Modal -->
+  <div id="onboarding-modal" class="onboarding-overlay hidden">
+    <div class="onboarding-backdrop"></div>
+    <div class="onboarding-float">
+      <button class="onboarding-skip" id="onboarding-skip">Skip Intro</button>
+      <div class="onboarding-accent-bar"></div>
+      <div class="onboarding-mascot-wrap">
+        <div class="mascot-ring">
+          <img src="./image/first-meet-mascot.png" alt="Welcome!" class="onboarding-mascot-img">
+        </div>
+        <div class="mascot-shadow"></div>
+      </div>
+      <div class="onboarding-steps">
+        <div class="onboarding-step active" data-step="0">
+          <div class="step-badge">Welcome</div>
+          <h2>Meet Yomiki</h2>
+          <p class="step-desc">Your sleek, personal manga library built for readers who love organization.</p>
+          <div class="feature-mini-list">
+            <div class="mini-item"><span style="color:var(--accent)">●</span> Lightning fast local library</div>
+            <div class="mini-item"><span style="color:var(--accent)">●</span> Beautiful dark & light themes</div>
+            <div class="mini-item"><span style="color:var(--accent)">●</span> Works completely offline</div>
+          </div>
+        </div>
+        <div class="onboarding-step" data-step="1">
+          <div class="step-badge">Import</div>
+          <h2>Bring Your Collection</h2>
+          <p class="step-desc">Drop a .zip, .cbz, or .ykm package, or let Yomiki scan an entire folder automatically.</p>
+        <div class="hint-img-card">
+          <img src="./image/feature/t1.jpg" alt="Import" onerror="this.style.display='none'; this.parentElement.classList.add('fallback')">
+            <div class="hint-fallback">Drop files anywhere</div>
+          </div>
+        </div>
+        <div class="onboarding-step" data-step="2">
+          <div class="step-badge">Reading</div>
+          <h2>Read Your Way</h2>
+          <p class="step-desc">Toggle between Vertical scrolling, Single Page, or Book Spread for that classic manga feel.</p>
+          <div class="kbd-grid">
+            <div class="kbd-item"><kbd>→</kbd> <span>Next page</span></div>
+            <div class="kbd-item"><kbd>←</kbd> <span>Previous</span></div>
+            <div class="kbd-item"><kbd>F</kbd> <span>Fullscreen</span></div>
+            <div class="kbd-item"><kbd>B</kbd> <span>Save bookmark</span></div>
+          </div>
+            <div class="hint-img-card">
+              <img src="./image/feature/t2.jpg" alt="Import" onerror="this.style.display='none'; this.parentElement.classList.add('fallback')">
+            <div class="hint-fallback">Reading manga</div>
+          </div>
+        </div>
+        <div class="onboarding-step" data-step="3">
+          <div class="step-badge">Organize</div>
+          <h2>Your Library, Your Rules</h2>
+          <p class="step-desc">Create Collections, filter by Genre, Tags, Status, or sort by progress and more.</p>
+        <div class="hint-img-card">
+          <img src="./image/feature/t3.jpg" alt="Import" onerror="this.style.display='none'; this.parentElement.classList.add('fallback')">
+            <div class="hint-fallback">Import & Scan</div>
+          </div>
+        </div>
+        <div class="onboarding-step" data-step="4">
+          <div class="step-badge">Customize</div>
+          <h2>Make It Yours</h2>
+          <p class="step-desc">Tweak everything in Settings. Switch themes, adjust UI scale, load custom CSS, remap keybinds, and more.</p>
+        </div>
+        <div class="onboarding-step" data-step="5">
+          <div class="step-badge">Ready</div>
+          <h2>You're All Set!</h2>
+          <p class="step-desc">Your library is waiting. Import your first manga and start reading.</p>
+          <p class="step-sub" style="margin-top:1rem;color:var(--text-muted);font-size:0.85rem;">Yomiki v1.1 — Built with Rust & Tauri</p>
+        </div>
+      </div>
+      <div class="onboarding-progress">
+        <div class="progress-track"><div class="progress-fill" id="onboarding-progress-fill"></div></div>
+        <div class="onboarding-dots">
+          <span class="dot active" data-dot="0"></span>
+          <span class="dot" data-dot="1"></span>
+          <span class="dot" data-dot="2"></span>
+          <span class="dot" data-dot="3"></span>
+          <span class="dot" data-dot="4"></span>
+          <span class="dot" data-dot="5"></span>
+        </div>
+      </div>
+      <div class="onboarding-actions">
+        <button id="btn-onboarding-prev" class="btn-secondary" style="visibility: hidden;"><span>←</span> Back</button>
+        <button id="btn-onboarding-next" class="btn-primary glow">Next <span>→</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drop Overlay -->
+  <div id="drop-overlay" class="drop-overlay hidden">
+    <div class="drop-zone">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:1rem;opacity:0.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <h2>Drop manga packages here</h2>
+      <p>.zip, .ykm, .cbz or folders with manga.json</p>
+    </div>
+  </div>
+
+  <!-- Bottom Sheet Detail -->
+  <div id="manga-sheet" class="sheet">
+    <div class="sheet-backdrop" id="sheet-backdrop"></div>
+    <div class="sheet-blur"></div>
+    <div class="sheet-content">
+      <button class="sheet-close" id="sheet-close">×</button>
+      <div class="sheet-handle"></div>
+      <div class="sheet-scrollable">
+        <div class="sheet-cover-wrap" id="sheet-cover"></div>
+        <div class="sheet-info">
+          <h2 id="sheet-title"></h2>
+          <div class="sheet-meta-row">
+            <span id="sheet-status" class="pill"></span>
+            <span id="sheet-type" class="pill secondary"></span>
+            <span id="sheet-genre" class="pill secondary"></span>
+            <span id="sheet-chapters" class="pill secondary"></span>
+          </div>
+          <div class="sheet-stats-row" id="sheet-stats"></div>
+          <div class="sheet-about" id="sheet-about"></div>
+          <div class="sheet-collections" id="sheet-collections" style="margin-top:var(--space-md);padding:var(--space-md);background:var(--bg-tertiary);border-radius:var(--radius-md);border:1px solid var(--border-subtle);">
+            <h4 style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);margin-bottom:0.5rem;">Collections</h4>
+            <div id="sheet-collection-tags" style="display:flex;flex-wrap:wrap;gap:0.4rem;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sheet-footer">
+        <button id="sheet-read" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Read Now
+        </button>
+        <button id="sheet-reset" class="btn-secondary" style="display:none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          Reset
+        </button>
+        <button id="sheet-fav" class="btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Favorite
+        </button>
+        <button id="sheet-collection" class="btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Collection
+        </button>
+        <button id="sheet-edit" class="btn-secondary" style="display:none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit
+        </button>
+        <button id="sheet-delete" class="btn-secondary danger-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collection Picker -->
+  <div id="collection-picker" class="sheet">
+    <div class="sheet-backdrop" id="collection-picker-backdrop"></div>
+    <div class="sheet-content" style="max-height: 70vh;">
+      <button class="sheet-close" id="collection-picker-close">×</button>
+      <div class="sheet-handle"></div>
+      <div class="sheet-scrollable">
+        <h3 style="margin-bottom: var(--space-lg); color: var(--accent);">Add to Collection</h3>
+        <div id="collection-picker-list" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+        <div style="margin-top: var(--space-lg); display: flex; gap: 0.5rem;">
+          <input type="text" id="new-collection-name" placeholder="New collection name..." style="flex: 1; padding: 0.6rem; background: var(--bg-tertiary); border: 1px solid var(--border-medium); border-radius: var(--radius-md); color: var(--text-primary); outline: none;">
+          <button id="btn-create-collection" class="btn-primary">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Delete Confirmation -->
+    <div id="delete-modal" class="modal-overlay hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card">
+        <h3 class="modal-title">Delete Manga?</h3>
+        <p class="modal-desc">This will permanently remove "<span id="delete-manga-title"></span>" from your library.</p>
+        <div class="modal-actions">
+          <button id="delete-confirm" class="btn-danger">Yes, do it</button>
+          <button id="delete-cancel" class="btn-neutral">Nah</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reset Confirmation -->
+  <div id="reset-modal" class="modal-overlay hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <h3 class="modal-title">Reset Progress?</h3>
+      <p class="modal-desc">This will clear all reading progress for "<span id="reset-manga-title"></span>". This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="reset-confirm" class="btn-danger">Yes, do it</button>
+        <button id="reset-cancel" class="btn-neutral">Nah</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Collection Confirmation -->
+  <div id="delete-collection-modal" class="modal-overlay hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <h3 class="modal-title">Delete Collection?</h3>
+      <p class="modal-desc">This will permanently remove the "<span id="delete-collection-title"></span>" collection. Manga in this collection will NOT be deleted.</p>
+      <div class="modal-actions">
+        <button id="delete-collection-confirm" class="btn-danger">Yes, do it</button>
+        <button id="delete-collection-cancel" class="btn-neutral">Nah</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Modal -->
+  <div id="stats-modal" class="sheet">
+    <div class="sheet-backdrop" id="stats-backdrop"></div>
+    <div class="sheet-blur"></div>
+    <div class="sheet-content" style="max-height: 80vh;">
+      <button class="sheet-close" id="stats-close">×</button>
+      <div class="sheet-handle"></div>
+      <div class="sheet-scrollable" style="padding-top: var(--space-lg);">
+        <h2 style="color:var(--accent);text-align:center;margin-bottom:var(--space-xl);font-size:1.4rem;">Library Statistics</h2>
+        <div class="stats-grid" id="stats-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="./script/utils.js"></script>
+  <script src="./script/menu.js"></script>
+  <script src="./script/scanfolder.js"></script>
+  <script src="./script/dev.js"></script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+/* ============================================
+   Yomiki DEV PANEL — Sidebar + Mascot Layout
+   ============================================ */
+
+#Yomiki-dev-panel {
+  position: fixed;
+  width: 680px;
+  top: 60px;
+  right: 20px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 0;
+  z-index: 99999;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-primary);
+  box-shadow:
+    0 0 0 1px var(--border-subtle),
+    0 24px 64px rgba(0, 0, 0, 0.5),
+    0 0 40px var(--accent-soft);
+  overflow: hidden;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: scale(0.95) translateY(-10px);
+  pointer-events: none;
+  user-select: none;
+}
+
+#Yomiki-dev-panel.active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: all;
+}
+
+/* ─── Drag Bar (top, full width) ─── */
+.dev-drag-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: grab;
+  position: relative;
+}
+
+.dev-drag-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover), var(--accent));
+  opacity: 0.7;
+}
+
+.dev-drag-bar:active {
+  cursor: grabbing;
+}
+
+.dev-drag-title {
+  flex: 1;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-primary);
+  letter-spacing: 0.3px;
+}
+
+.dev-close-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.dev-close-btn:hover {
+  background: var(--error);
+  border-color: var(--error);
+  color: #fff;
+}
+
+/* ─── Main Body: Sidebar + Content ─── */
+.dev-body {
+  display: flex;
+  height: 420px;
+}
+
+/* ─── Sidebar (left) ─── */
+.dev-sidebar {
+  width: 160px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 8px;
+  gap: 2px;
+}
+
+/* Mascot area */
+.dev-mascot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0 12px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.dev-mascot {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  overflow: hidden;
+}
+
+.dev-mascot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.dev-mascot-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* Sidebar tabs */
+.dev-sidetab {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.dev-sidetab:hover {
+  background: var(--surface-hover);
+  color: var(--text-secondary);
+}
+
+.dev-sidetab.active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px var(--accent-soft);
+}
+
+/* ─── Content Area (right) ─── */
+.dev-content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.dev-content-header {
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+}
+
+.dev-tab-content {
+  display: none;
+  flex: 1;
+  padding: 10px 12px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-medium) transparent;
+}
+
+.dev-tab-content.active {
+  display: block;
+}
+
+.dev-tab-content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.dev-tab-content::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: var(--radius-full);
+}
+
+/* ─── Command Buttons ─── */
+.dev-cmd {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  margin-bottom: 5px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.dev-cmd:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-medium);
+  transform: translateX(2px);
+}
+
+.dev-cmd:active {
+  transform: scale(0.98);
+}
+
+.dev-cmd-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.dev-cmd-label {
+  flex: 1;
+}
+
+.dev-cmd-hint {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Toggle switch style for boolean-like commands */
+.dev-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  margin-bottom: 5px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dev-toggle:hover {
+  background: var(--surface-hover);
+}
+
+.dev-toggle-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.dev-toggle.active .dev-toggle-check {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.dev-toggle.active .dev-toggle-check::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* ─── Footer ─── */
+.dev-footer {
+  padding: 8px 14px;
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.dev-footer kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+  font-size: 9px;
+  color: var(--text-secondary);
+  margin: 0 2px;
+}
+
+/* ─── Disco Mode ─── */
+body.dev-disco-active #Yomiki-dev-panel {
+  animation: dev-panel-neon 2s ease-in-out infinite;
+  border-color: var(--accent);
+}
+
+@keyframes dev-panel-neon {
+  0%, 100% { box-shadow: 0 0 0 1px var(--border-subtle), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px var(--accent-soft); }
+  50% { box-shadow: 0 0 0 1px var(--accent), 0 24px 64px rgba(0,0,0,0.5), 0 0 60px var(--accent-soft); }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 600px) {
+  #Yomiki-dev-panel {
+    width: calc(100vw - 32px);
+    right: 16px;
+    left: 16px;
+  }
+  .dev-body {
+    height: 360px;
+  }
+}
