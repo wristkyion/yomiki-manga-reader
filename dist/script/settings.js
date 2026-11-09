@@ -382,13 +382,14 @@ const changelogData = [
     changes: [
       'UI Re-Design from old into to new design',
       'Changing name Yomikyo to Yomiki',
-      'Statistic page are avaiable and some feature might be unfixed. so later we fixed it',
+      'Statistic are unsued right now so later we fixed it and make it new',
       'Improvment emojis into to SVG',
+      'From this time, we might be focus on fix the bug feature on our apps, stay tune about the new feature'
     ]
   },
   {
     version: '1.3release | Studio Update!',
-    date: '2026-05-21',
+    date: '2026-05-20',
     changes: [
       'Manga Studio is now available',
       'Improved overall stability',

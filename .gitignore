@@ -1,4 +1,5 @@
 src-tauri/target
 node_modules
+dist
 .into-to-txt
 .backup
