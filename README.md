@@ -8,6 +8,14 @@ This project is archived / legacy code. It is not being actively maintained, but
 
 Yomiki is a local manga management app for browsing a manga library, importing manga folders or archives, reading the content in a desktop viewer, and saving reading progress. It is designed around a local file-based workflow, where each manga is stored in a folder that contains metadata and chapter/page images.
 
+<div align="center">
+
+Total wiew repository
+  
+![Visitors](https://count.getloli.com/@yomiki-manga-reader?theme=gelbooru&padding=6&offset=-9&align=top&scale=1&pixelated=1&darkmode=auto)
+
+</div> 
+
 ## Included features
 
 The current codebase already contains the following features:
